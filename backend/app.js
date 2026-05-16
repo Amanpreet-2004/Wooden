@@ -1,27 +1,4 @@
-// import dotenv from 'dotenv';
-// dotenv.config(); // Ye line hona sabse zaroori hai
 
-// import express from 'express';
-// import dbConnect from './connect/dbConnect.js';
-// import userRouter from './routes/userRouter.js';
-// import productRouter from "./routes/productRouter.js"
-// import fileUpload from 'express-fileupload';
-// import cartRoutes from './routes/cartRoutes.js';
-// import cors from 'cors';
-
-// const app= express()
-// app.use(express.json())
-// app.use(cors())
-// app.use(fileUpload())
-
-// const port = 1987;
-// dbConnect()
-// app.use("/User",userRouter)
-// app.use("/product",productRouter)
-// app.use('/api/cart', cartRoutes);
-// app.listen(port,()=>{
-//     console.log(`Server is running on ${port}`)
-// })
 
 import dotenv from 'dotenv';
 dotenv.config(); 
@@ -42,8 +19,8 @@ app.use(express.json());
 app.use(cors());
 app.use(fileUpload());
 
-const port = 1987;
-
+// const port = 1987;
+const port = process.env.PORT || 1987;
 // Database Connection
 dbConnect(); // Make sure dbConnect uses process.env.MONGO_URL internally
 
