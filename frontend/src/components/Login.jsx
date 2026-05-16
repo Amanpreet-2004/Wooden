@@ -17,7 +17,7 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = async (e) => {
+ const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -25,41 +25,40 @@ const Login = () => {
       const res = await axios.post("https://wooden-backend.onrender.com/user/login", formData);
 
       if (res.data.success) {
-        // Backend Response check
-        console.log("Backend Response:", res.data);
-
         const token = res.data.token;
         const userId = res.data.userId || res.data.user?._id;
-        // Role check logic add ki hai
-        const userRole = res.data.role || res.data.user?.role; 
 
         if (token && userId) {
           localStorage.setItem("token", token);
           localStorage.setItem("userId", userId);
-          localStorage.setItem("role", userRole); // Role ko store kiya
           
-          Swal.fire("Success", "Login Successfully!", "success");
+          await Swal.fire({
+            title: "Success",
+            text: "Login Successfully!",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false
+          });
 
-          const userRole = res.data.role; // Backend se jo humne abhi add kiya
-
-if (userRole === "admin") {
-    navigate("/adminlayout"); // Dashboard par jayega
-} else {
-    navigate("/products"); // User page par jayega
-}
+          // Seedha products page par bhej rahe hain
+          navigate("/products");
           
-          // reload zaroori hai agar Navbar role ke hisab se update hona hai
+          // Navbar update karne ke liye refresh
           window.location.reload(); 
         } else {
-          console.error("Token, UserId, or Role missing!");
           setLoading(false);
+          Swal.fire("Error", "Login data missing from server", "error");
         }
+      } else {
+        setLoading(false);
+        Swal.fire("Login Failed", res.data.message || "Invalid Credentials", "error");
       }
     } catch (error) {
       setLoading(false);
+      console.error("Login Error:", error);
       Swal.fire({
         title: 'Login Failed',
-        text: error.response?.data?.message || 'Invalid Email or Password',
+        text: error.response?.data?.message || 'Server connection error',
         icon: 'error',
         confirmButtonColor: '#1a1a1a'
       });
