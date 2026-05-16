@@ -43,7 +43,12 @@ const Checkout = () => {
     const res = await axios.post("https://wooden-backend.onrender.com/order/place", {
       ...formData,
       cartItems: cartItems
-    });
+    }
+  , 
+  { 
+    withCredentials: true // <--- Ye third argument mein jayega
+  }
+  );
 
     if (res.data.success) {
       Swal.fire('Success!', 'Order inquiry sent! Check your email.', 'success');
