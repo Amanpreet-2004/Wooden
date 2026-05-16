@@ -72,20 +72,19 @@ export const placeOrder = async (req, res) => {
   const { fullName, email, phone, address, city, pincode, cartItems } = req.body;
 
   try {
-    // 1. Updated Email Transporter Setup for Live Servers
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      host: "smtp.gmail.com",
-      port: 587,            // Render par 587 zyada stable hai
-      secure: false,         // 587 ke liye false hona chahiye
-      auth: {
-        user: "aman3838209@gmail.com",
-        pass: "lytu vdzr dsaf dhnt", 
-      },
-      tls: {
-        rejectUnauthorized: false // Connection block hone se bachata hai
-      }
-    });
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,                   // Sabse zaroori: ise 587 kijiye
+  secure: false,                // 587 ke sath hamesha false hoga
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS, 
+  },
+  tls: {
+    rejectUnauthorized: false   // Isse Render connection block nahi karega
+  }
+});
 
     // 2. Cart Items Table
     const itemsHtml = cartItems.map(item => `
