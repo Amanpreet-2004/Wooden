@@ -111,9 +111,9 @@ const Navbar = () => {
           </Link>
 
           {isLoggedIn ? (
-            <button onClick={handleLogout} className="logout-btn">LOGOUT</button>
-          ) : (
             <Link to="/login" className="login-btn">LOGIN</Link>
+          ) : (
+            <button onClick={handleLogout} className="logout-btn">LOGOUT</button>
           )}
 
           <Link to="/qoute" className="quote-btn">GET FREE QUOTE</Link>
