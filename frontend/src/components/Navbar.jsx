@@ -1,15 +1,13 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Axios add kiya
+import axios from 'axios'; 
 import Swal from 'sweetalert2';
 import "../App.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [cartCount, setCartCount] = useState(0); // Cart count state
+  const [cartCount, setCartCount] = useState(0); 
   const navigate = useNavigate();
 
   // 1. Function jo cart items fetch karega
@@ -18,7 +16,6 @@ const Navbar = () => {
     if (userId) {
       try {
         const res = await axios.get(`https://wooden-backend.onrender.com/cart/get/${userId}`);
-        // Database mein jitne products hain, unka total length
         setCartCount(res.data.length || 0);
       } catch (err) {
         console.error("Navbar count fetch error:", err);
@@ -32,7 +29,9 @@ const Navbar = () => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
-      getCartCount(); // Mount par count fetch karein
+      getCartCount(); 
+    } else {
+      setIsLoggedIn(false);
     }
 
     // 2. Magic Listener: Jab bhi 'cartUpdated' event fire hoga, count refresh hoga
@@ -57,7 +56,7 @@ const Navbar = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         setIsLoggedIn(false);
-        setCartCount(0); // Logout par count reset
+        setCartCount(0); 
         Swal.fire('Logged Out!', 'Successfully logged out.', 'success');
         navigate('/login');
       }
@@ -110,10 +109,11 @@ const Navbar = () => {
             <span className="cart-count">{cartCount}</span>
           </Link>
 
+          {/* FIX: Sahi logic—isLoggedIn true toh LOGOUT dikhao, warna LOGIN */}
           {isLoggedIn ? (
-            <Link to="/login" className="login-btn">LOGIN</Link>
-          ) : (
             <button onClick={handleLogout} className="logout-btn">LOGOUT</button>
+          ) : (
+            <Link to="/login" className="login-btn">LOGIN</Link>
           )}
 
           <Link to="/qoute" className="quote-btn">GET FREE QUOTE</Link>
@@ -124,7 +124,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu Update */}
+      {/* Mobile Menu Updates */}
       <div className={`mobile-menu ${isOpen ? 'active' : ''}`}>
         <div className="mobile-links">
           {navLinks.map((link) => (
@@ -135,8 +135,10 @@ const Navbar = () => {
           <Link to="/cart" onClick={() => setIsOpen(false)} className="mobile-nav-item">
             Cart ({cartCount})
           </Link>
+          
+          {/* FIX: Mobile Menu mein bhi logic theek kar diya */}
           {isLoggedIn ? (
-            <button onClick={handleLogout} className="mobile-nav-item logout-btn-mobile">Logout</button>
+            <button onClick={() => { handleLogout(); setIsOpen(false); }} className="mobile-nav-item logout-btn-mobile">Logout</button>
           ) : (
             <Link to="/login" onClick={() => setIsOpen(false)} className="mobile-nav-item">Login</Link>
           )}
