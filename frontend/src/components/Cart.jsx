@@ -19,7 +19,7 @@ const Cart = () => {
     }
 
     try {
-      const res = await axios.get(`http://localhost:1987/cart/get/${userId}`);
+      const res = await axios.get(`https://wooden-backend.onrender.com/cart/get/${userId}`);
       setCartItems(res.data || []);
     } catch (err) {
       console.error("Cart fetch error:", err);
@@ -35,7 +35,7 @@ const Cart = () => {
   // 2. Remove Single Item
   const handleRemove = async (productId) => {
     try {
-      const res = await axios.post("http://localhost:1987/cart/remove", {
+      const res = await axios.post("https://wooden-backend.onrender.com/cart/remove", {
         userId,
         productId
       });
@@ -92,7 +92,7 @@ const Cart = () => {
   if (result.isConfirmed) {
     try {
       // 2. API call karein
-      const res = await axios.delete(`http://localhost:1987/cart/clear/${userId}`);
+      const res = await axios.delete(`https://wooden-backend.onrender.com/cart/clear/${userId}`);
 
       if (res.data.success) {
         // 3. Local state khali karein taaki UI turant update ho

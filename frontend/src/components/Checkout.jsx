@@ -21,7 +21,7 @@ const Checkout = () => {
     // Cart fetch logic (taaki user ko summary dikhe)
     const fetchCart = async () => {
       try {
-        const res = await axios.get(`http://localhost:1987/cart/get/${userId}`);
+        const res = await axios.get(`https://wooden-backend.onrender.com/cart/get/${userId}`);
         setCartItems(res.data || []);
       } catch (err) {
         console.error("Fetch error:", err);
@@ -40,7 +40,7 @@ const Checkout = () => {
   e.preventDefault();
   
   try {
-    const res = await axios.post("http://localhost:1987/order/place", {
+    const res = await axios.post("https://wooden-backend.onrender.com/order/place", {
       ...formData,
       cartItems: cartItems
     });
