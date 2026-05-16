@@ -10,7 +10,7 @@ export const placeOrder = async (req, res) => {
       service: "gmail",
       auth: {
         user: "aman3838209@gmail.com",
-        pass: "jzih xuxs qglc rozj", 
+        pass: "lytu vdzr dsaf dhnt", 
       },
     });
 
