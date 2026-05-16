@@ -41,7 +41,7 @@ const Login = () => {
           });
 
           // Seedha products page par bhej rahe hain
-          navigate("/products");
+          navigate("/Products");
           
           // Navbar update karne ke liye refresh
           window.location.reload(); 
