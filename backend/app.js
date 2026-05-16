@@ -22,8 +22,8 @@ app.use(cors({
 }));
 app.use(fileUpload());
 
-// const port = 1987;
-const port = process.env.PORT || 1987;
+ const port = 1987;
+
 // Database Connection
 dbConnect(); // Make sure dbConnect uses process.env.MONGO_URL internally
 
