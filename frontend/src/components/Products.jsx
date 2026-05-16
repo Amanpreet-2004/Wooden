@@ -48,7 +48,7 @@ const Products = () => {
     }
 
     try {
-      const cartRes = await axios.post("http://localhost:1987/cart/add", {
+      const cartRes = await axios.post("https://wooden-backend.onrender.com/cart/add", {
         userId,
         productId: String(product.id),
         title: product.title,
