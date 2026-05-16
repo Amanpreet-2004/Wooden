@@ -36,15 +36,13 @@ const Login = () => {
             title: "Success",
             text: "Login Successfully!",
             icon: "success",
-            timer: 2000,
+            timer: 1500,
             showConfirmButton: false
           });
 
-          // Seedha products page par bhej rahe hain
-          navigate("/products");
+         
+          window.location.href = "/products"; 
           
-          // Navbar update karne ke liye refresh
-          window.location.reload(); 
         } else {
           setLoading(false);
           Swal.fire("Error", "Login data missing from server", "error");
