@@ -45,7 +45,7 @@ const Login = () => {
 if (userRole === "admin") {
     navigate("/adminlayout"); // Dashboard par jayega
 } else {
-    navigate("/Products"); // User page par jayega
+    navigate("/products"); // User page par jayega
 }
           
           // reload zaroori hai agar Navbar role ke hisab se update hona hai
