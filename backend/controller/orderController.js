@@ -1,17 +1,25 @@
 import nodemailer from "nodemailer";
 
-
 export const placeOrder = async (req, res) => {
   const { fullName, email, phone, address, city, pincode, cartItems } = req.body;
 
   try {
-    // 1. Email Transporter Setup
+    // 1. Email Transporter Setup (Render Safe & Fast Port 587)
     const transporter = nodemailer.createTransport({
       service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // Port 587 ke liye false rahega
       auth: {
-        user: "aman3838209@gmail.com",
-        pass: "lytu vdzr dsaf dhnt", 
+        // Hardcoded password hata kar secure Env variables use kiye hain
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS, 
       },
+      tls: {
+        rejectUnauthorized: false // Connection block hone se bachayega
+      },
+      connectionTimeout: 3000, // Sirf 3 seconds connect karne ka try karega
+      greetingTimeout: 3000,   // 3 seconds se zyada server ko hang nahi hone dega
     });
 
     // 2. Cart Items Table
@@ -55,13 +63,17 @@ export const placeOrder = async (req, res) => {
       `,
     };
 
-    // 4. Send Email
-    await transporter.sendMail(mailOptions);
+    // 4. SMART MOVE: 'await' hata diya hai!
+    // Node.js background mein chupke se email bhejta rahega...
+    transporter.sendMail(mailOptions).catch(err => {
+      console.error("Background Mail Error (Bypassed):", err.message);
+    });
 
-    res.status(200).json({ success: true, message: "Order placed & Email sent!" });
+    // 5. ...Aur frontend ko INSTANT response mil jayega bina ruke!
+    return res.status(200).json({ success: true, message: "Order placed successfully!" });
 
   } catch (error) {
-    console.error("Email Error:", error);
-    res.status(500).json({ success: false, message: "Order placed but email failed." });
+    console.error("Main Order Error:", error);
+    return res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
